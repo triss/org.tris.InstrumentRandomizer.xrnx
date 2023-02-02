@@ -18,11 +18,20 @@ renoise.tool().preferences = options
 -- Helper functions
 --------------------------------------------------------------------------------
 
--- Applys a function to every selected line in produced by an iterator
+-- Applys a function to every selected line produced by an iterator
 local function apply_to_lines_in_iterator(it, fn)
   for _,line in it do
     fn(line)
   end
+end
+
+-- Applys a function to every selected line in a track
+local function apply_to_lines_in_selected_track(fn)
+  local rs = renoise.song()
+  apply_to_lines_in_iterator(
+    rs.pattern_iterator:note_columns_in_track(rs.selected_track_index),
+    fn
+  )
 end
 
 -- Applys a function to every selected line in the current pattern selection
@@ -62,12 +71,8 @@ local function randomize_instruments_in_selection()
 end
 
 local function randomize_instruments_on_track()
-  local rs = renoise.song()
   math.randomseed(os.time())
-  apply_to_lines_in_iterator(
-    rs.pattern_iterator:note_columns_in_track(rs.selected_track_index),
-    randomize_instrument
-  )
+  apply_to_lines_in_selected_track(randomize_instrument)
 end
 
 -- Shift the instrument used by a note up within the range specified by options.
