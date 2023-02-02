@@ -51,6 +51,38 @@ local function randomize_instruments()
   end)
 end
 
+-- Shift the instrument used by a note up within the range specified by options.
+-- Wraps the value back round if too high.
+local function shift_instrument_up(line)
+  if line.instrument_value ~= renoise.PatternLine.EMPTY_INSTRUMENT then
+    if line.instrument_value < options.high_instrument.value then
+      line.instrument_value = line.instrument_value + 1
+    else
+      line.instrument_value = options.low_instrument.value
+    end
+  end
+end
+
+-- Shift the instrument used by a note up within the range specified by options.
+-- Wraps the value back round if too low.
+local function shift_instrument_down(line)
+  if line.instrument_value ~= renoise.PatternLine.EMPTY_INSTRUMENT then
+    if line.instrument_value > options.low_instrument.value then
+      line.instrument_value = line.instrument_value - 1
+    else
+      line.instrument_value = options.high_instrument.value
+    end
+  end
+end
+
+local function shift_up_instruments_in_selection()
+  apply_to_selected_lines(shift_instrument_up)
+end
+
+local function shift_down_instruments_in_selection()
+  apply_to_selected_lines(shift_instrument_down)
+end
+
 --------------------------------------------------------------------------------
 -- Options dialog
 --------------------------------------------------------------------------------
@@ -96,6 +128,16 @@ renoise.tool():add_menu_entry {
 }
 
 renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Selection:Shift Instruments Down",
+  invoke = shift_down_instruments_in_selection
+}
+
+renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Selection:Shift Instruments Up",
+  invoke = shift_up_instruments_in_selection
+}
+
+renoise.tool():add_menu_entry {
   name = "Main Menu:Tools:Instrument Randomizer:Options",
   invoke = show_options
 }
@@ -105,8 +147,18 @@ renoise.tool():add_menu_entry {
 --------------------------------------------------------------------------------
 
 renoise.tool():add_keybinding {
-  name = "Pattern Editor:Pattern Operations:Randomize Instruments",
+  name = "Pattern Editor:Pattern Operations:Randomize Instruments in Selection",
   invoke = randomize_instruments
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Up in Selection",
+  invoke = shift_up_instruments_in_selection
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Down in Selection",
+  invoke = shift_down_instruments_in_selection
 }
 
 renoise.tool():add_keybinding {
