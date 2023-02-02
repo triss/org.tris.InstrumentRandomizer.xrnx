@@ -107,6 +107,14 @@ local function shift_down_instruments_in_selection()
   apply_to_selected_lines(shift_instrument_down)
 end
 
+local function shift_up_instruments_in_track()
+  apply_to_lines_in_selected_track(shift_instrument_up)
+end
+
+local function shift_down_instruments_in_track()
+  apply_to_lines_in_selected_track(shift_instrument_down)
+end
+
 --------------------------------------------------------------------------------
 -- Options dialog
 --------------------------------------------------------------------------------
@@ -167,6 +175,16 @@ renoise.tool():add_menu_entry {
 }
 
 renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Track:Shift Instruments Down",
+  invoke = shift_down_instruments_in_track
+}
+
+renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Track:Shift Instruments Up",
+  invoke = shift_up_instruments_in_track
+}
+
+renoise.tool():add_menu_entry {
   name = "Main Menu:Tools:Instrument Randomizer:Options",
   invoke = show_options
 }
@@ -188,6 +206,16 @@ renoise.tool():add_keybinding {
 renoise.tool():add_keybinding {
   name = "Pattern Editor:Pattern Operations:Shift Instrument Down in Selection",
   invoke = shift_down_instruments_in_selection
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Up in Track",
+  invoke = shift_up_instruments_in_track
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Down in Track",
+  invoke = shift_down_instruments_in_track
 }
 
 renoise.tool():add_keybinding {
