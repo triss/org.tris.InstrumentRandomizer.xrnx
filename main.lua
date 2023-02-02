@@ -162,6 +162,6 @@ renoise.tool():add_keybinding {
 }
 
 renoise.tool():add_keybinding {
-  name = "Global:Instrument Randomizer:Options",
+  name = "Pattern Editor:Pattern Operations:Randomize Instruments Options",
   invoke = show_options
 }
