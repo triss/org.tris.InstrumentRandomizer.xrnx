@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RenoiseScriptingTool doc_version="0">
+  <ApiVersion>6.1</ApiVersion>
+  <Id>org.tris.InstrumentRandomizer</Id>
+  <Version>1</Version>
+  <Author>Tristan Strange | tristan.strange@gmail.com  </Author>
+  <Name>Instrument Randomizer</Name>
+  <Category>Pattern manipulation</Category>
+  <Description>Randomizes or shifts the instrument used by notes in a specified range.</Description>
+  <Homepage>http://tools.renoise.com</Homepage>
+</RenoiseScriptingTool>
