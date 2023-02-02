@@ -34,6 +34,15 @@ local function apply_to_lines_in_selected_track(fn)
   )
 end
 
+-- Applys a function to every selected line in a pattern
+local function apply_to_lines_in_selected_pattern(fn)
+  local rs = renoise.song()
+  apply_to_lines_in_iterator(
+    rs.pattern_iterator:note_columns_in_pattern(rs.selected_pattern_index),
+    fn
+  )
+end
+
 -- Applys a function to every selected line in the current pattern selection
 local function apply_to_selected_lines(fn)
   local rs = renoise.song()
@@ -75,6 +84,11 @@ local function randomize_instruments_on_track()
   apply_to_lines_in_selected_track(randomize_instrument)
 end
 
+local function randomize_instruments_in_pattern()
+  math.randomseed(os.time())
+  apply_to_lines_in_selected_pattern(randomize_instrument)
+end
+
 -- Shift the instrument used by a note up within the range specified by options.
 -- Wraps the value back round if too high.
 local function shift_instrument_up(line)
@@ -113,6 +127,14 @@ end
 
 local function shift_down_instruments_in_track()
   apply_to_lines_in_selected_track(shift_instrument_down)
+end
+
+local function shift_up_instruments_in_pattern()
+  apply_to_lines_in_selected_pattern(shift_instrument_up)
+end
+
+local function shift_down_instruments_in_pattern()
+  apply_to_lines_in_selected_pattern(shift_instrument_down)
 end
 
 --------------------------------------------------------------------------------
@@ -165,6 +187,11 @@ renoise.tool():add_menu_entry {
 }
 
 renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Pattern:Randomize Instruments",
+  invoke = randomize_instruments_in_pattern
+}
+
+renoise.tool():add_menu_entry {
   name = "Pattern Editor:Selection:Shift Instruments Down",
   invoke = shift_down_instruments_in_selection
 }
@@ -182,6 +209,16 @@ renoise.tool():add_menu_entry {
 renoise.tool():add_menu_entry {
   name = "Pattern Editor:Track:Shift Instruments Up",
   invoke = shift_up_instruments_in_track
+}
+
+renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Pattern:Shift Instruments Down",
+  invoke = shift_down_instruments_in_pattern
+}
+
+renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Pattern:Shift Instruments Up",
+  invoke = shift_up_instruments_in_pattern
 }
 
 renoise.tool():add_menu_entry {
