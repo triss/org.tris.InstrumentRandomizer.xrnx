@@ -246,6 +246,16 @@ renoise.tool():add_keybinding {
 }
 
 renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Randomize Instruments on Track",
+  invoke = randomize_instruments_on_track
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Randomize Instruments in Pattern",
+  invoke = randomize_instruments_in_pattern
+}
+
+renoise.tool():add_keybinding {
   name = "Pattern Editor:Pattern Operations:Shift Instrument Up in Track",
   invoke = shift_up_instruments_in_track
 }
@@ -253,6 +263,16 @@ renoise.tool():add_keybinding {
 renoise.tool():add_keybinding {
   name = "Pattern Editor:Pattern Operations:Shift Instrument Down in Track",
   invoke = shift_down_instruments_in_track
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Up in Pattern",
+  invoke = shift_up_instruments_in_pattern
+}
+
+renoise.tool():add_keybinding {
+  name = "Pattern Editor:Pattern Operations:Shift Instrument Down in Pattern",
+  invoke = shift_down_instruments_in_pattern
 }
 
 renoise.tool():add_keybinding {
