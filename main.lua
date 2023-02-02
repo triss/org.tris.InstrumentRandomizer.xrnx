@@ -18,7 +18,14 @@ renoise.tool().preferences = options
 -- Helper functions
 --------------------------------------------------------------------------------
 
--- Applys a function to every line in the current pattern selection
+-- Applys a function to every selected line in produced by an iterator
+local function apply_to_lines_in_iterator(it, fn)
+  for _,line in it do
+    fn(line)
+  end
+end
+
+-- Applys a function to every selected line in the current pattern selection
 local function apply_to_selected_lines(fn)
   local rs = renoise.song()
 
@@ -39,16 +46,28 @@ end
 -- Main function
 --------------------------------------------------------------------------------
 
+-- Randomize's the instrument used by note on line
+-- If no instrument number is specified on the line it's skipped
+function randomize_instrument(line)
+  if line.instrument_value ~= renoise.PatternLine.EMPTY_INSTRUMENT then
+    line.instrument_value = math.random(
+      options.low_instrument.value, options.high_instrument.value)
+  end
+end
+
 -- Randomize's the instrument used by every note in a given selection.
--- If no instrument number is specified inthe pattern it's skipped.
-local function randomize_instruments()
+local function randomize_instruments_in_selection()
   math.randomseed(os.time())
-  apply_to_selected_lines(function(line)
-    if line.instrument_value ~= renoise.PatternLine.EMPTY_INSTRUMENT then
-      line.instrument_value = math.random(
-        options.low_instrument.value, options.high_instrument.value)
-    end
-  end)
+  apply_to_selected_lines(randomize_instrument)
+end
+
+local function randomize_instruments_on_track()
+  local rs = renoise.song()
+  math.randomseed(os.time())
+  apply_to_lines_in_iterator(
+    rs.pattern_iterator:note_columns_in_track(rs.selected_track_index),
+    randomize_instrument
+  )
 end
 
 -- Shift the instrument used by a note up within the range specified by options.
@@ -124,7 +143,12 @@ end
 
 renoise.tool():add_menu_entry {
   name = "Pattern Editor:Selection:Randomize Instruments",
-  invoke = randomize_instruments
+  invoke = randomize_instruments_in_selection
+}
+
+renoise.tool():add_menu_entry {
+  name = "Pattern Editor:Track:Randomize Instruments",
+  invoke = randomize_instruments_on_track
 }
 
 renoise.tool():add_menu_entry {
@@ -148,7 +172,7 @@ renoise.tool():add_menu_entry {
 
 renoise.tool():add_keybinding {
   name = "Pattern Editor:Pattern Operations:Randomize Instruments in Selection",
-  invoke = randomize_instruments
+  invoke = randomize_instruments_in_selection
 }
 
 renoise.tool():add_keybinding {
