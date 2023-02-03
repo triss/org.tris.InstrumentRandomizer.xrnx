@@ -18,6 +18,14 @@ renoise.tool().preferences = options
 -- Helper functions
 --------------------------------------------------------------------------------
 
+local function reseed_random()
+  math.randomseed(os.time())
+  math.random()
+  math.random()
+end
+
+reseed_random()
+
 -- Applys a function to every selected line produced by an iterator
 local function apply_to_lines_in_iterator(it, fn)
   for _,line in it do
@@ -75,17 +83,14 @@ end
 
 -- Randomize's the instrument used by every note in a given selection.
 local function randomize_instruments_in_selection()
-  math.randomseed(os.time())
   apply_to_selected_lines(randomize_instrument)
 end
 
 local function randomize_instruments_on_track()
-  math.randomseed(os.time())
   apply_to_lines_in_selected_track(randomize_instrument)
 end
 
 local function randomize_instruments_in_pattern()
-  math.randomseed(os.time())
   apply_to_lines_in_selected_pattern(randomize_instrument)
 end
 
